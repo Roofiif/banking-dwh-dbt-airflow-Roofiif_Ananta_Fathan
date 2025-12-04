@@ -1,0 +1,84 @@
+# =========================
+# OS & Editor junk
+# =========================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+*.iml
+
+# =========================
+# Python / Virtualenv
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pytest_cache/
+.mypy_cache/
+.pytype/
+.tox/
+.venv/
+venv/
+env/
+
+# =========================
+# Root level env & temp
+# =========================
+.env
+.env.local
+.env.*
+!.env.example
+
+dist/
+build/
+*.log
+*.tmp
+*.out
+
+# =========================
+# dbt (in DBT/)
+# =========================
+DBT/target/
+DBT/logs/
+DBT/dbt_packages/
+
+# Kalau profiles.yml kamu simpan di dalam project
+DBT/profiles.yml
+DBT/profiles.yml.enc
+
+# Kadang ada log di root dbt project
+DBT/dbt.log
+
+# =========================
+# Airflow (in AIRFLOW/)
+# =========================
+# Logs dari Airflow
+AIRFLOW/logs/
+AIRFLOW/airflow_logs/
+AIRFLOW/*/logs/
+
+# Metadata dan config lokal
+AIRFLOW/airflow.db
+AIRFLOW/airflow.db-journal
+AIRFLOW/airflow.cfg
+AIRFLOW/unittests.cfg
+AIRFLOW/.airflowenv
+AIRFLOW/.airflow/
+
+# Kalau pakai folder ini sebagai AIRFLOW_HOME
+AIRFLOW/airflow_home/
+AIRFLOW/airflow_tmp/
+
+# Cache di dalam dags & plugins
+AIRFLOW/dags/__pycache__/
+AIRFLOW/plugins/__pycache__/
+
+# =========================
+# Docker volumes or data
+# =========================
+AIRFLOW/data/
+AIRFLOW/tmp/
+docker-data/
