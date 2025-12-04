@@ -1,0 +1,104 @@
+
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'banking_dw'
+version: '1.0.0'
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'banking_dw'
+
+# These configurations specify where dbt should look for different types of files.
+# The `model-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+
+# Configuring models
+# Full documentation: https://docs.getdbt.com/docs/configuring-models
+
+# In this example config, we tell dbt to build all models in the example/
+# directory as views. These settings can be overridden in the individual model
+# files using the `{{ config(...) }}` macro.
+# Model configurations
+models:
+  banking_dw:
+    # Staging models - views for flexibility
+    staging:
+      +materialized: view
+      +tags: ['staging']
+
+    # Intermediate models - ephemeral or views
+    intermediate:
+      +materialized: table
+      +tags: ['intermediate']
+
+    # Marts models - tables for performance
+    marts:
+      +materialized: table
+      +tags: ['marts']
+
+# Seed configurations
+seeds:
+  banking_dw:
+
+    accounts:
+      +column_types:
+        account_id: bigint
+        customer_id: bigint
+        account_number: varchar     # penting: jangan integer
+        account_type: varchar
+        account_status: varchar
+        open_date: date
+        close_date: date
+        branch_id: bigint
+        branch_name: varchar
+        interest_rate: double
+        minimum_balance: bigint
+        current_balance: bigint
+        currency: varchar
+        last_transaction_date: date
+
+    customers:
+      +column_types:
+        customer_id: bigint
+        first_name: varchar
+        last_name: varchar
+        date_of_birth: date
+        gender: varchar
+        email: varchar
+        phone: varchar              # penting: VARCHAR
+        address: varchar
+        city: varchar
+        province: varchar
+        postal_code: bigint
+        occupation: varchar
+        income_level: varchar
+        risk_rating: varchar
+        registration_date: date
+        last_updated: date
+
+    transactions:
+      +column_types:
+        transaction_id: bigint
+        account_id: bigint
+        transaction_date: date
+        transaction_time: time
+        transaction_type: varchar
+        amount: double
+        balance_after: double
+        merchant_name: varchar
+        merchant_category: varchar
+        channel: varchar
+        location: varchar
+        description: varchar
+        status: varchar

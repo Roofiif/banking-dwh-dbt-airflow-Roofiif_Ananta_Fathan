@@ -1,0 +1,155 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "Cleaned and standardized customer data from raw.customers"
+    columns:
+      - name: customer_id
+        description: "Business key, unique identifier for each customer from source system"
+        tests:
+          - unique
+          - not_null
+
+      - name: email
+        description: "Customer email address"
+        tests:
+          - not_null
+
+      - name: full_name
+        description: "Customer's full name (first + last)"
+
+      - name: gender
+        description: "Customer gender"
+
+      - name: date_of_birth
+        description: "Customer date of birth"
+
+      - name: address
+        description: "Customer address"
+
+      - name: city
+        description: "Customer city"
+
+      - name: province
+        description: "Customer province"
+
+      - name: postal_code
+        description: "Customer postal code"
+
+      - name: phone
+        description: "Customer phone number"
+
+      - name: occupation
+        description: "Customer occupation"
+
+      - name: income_level
+        description: "Customer income level grouping"
+
+      - name: risk_rating
+        description: "Customer credit risk rating"
+
+      - name: registration_date
+        description: "Date when customer registered in banking system"
+
+      - name: risk_rating
+        description: "Customer credit risk rating"
+
+  - name: stg_accounts
+    description: "Cleaned and standardized account data from raw.accounts"
+    columns:
+      - name: account_id
+        description: "Business key, unique identifier for each account from source system"
+        tests:
+          - unique
+          - not_null
+
+      - name: customer_id
+        description: "Foreign key to stg_customer.customer_id"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customer')
+              field: customer_id
+
+      - name: account_number
+        description: "Displayed account number for customers"
+        tests:
+          - not_null
+
+      - name: account_type
+        description: "Type of account (Savings, Current, Deposit, etc)"
+        tests:
+          - not_null
+
+      - name: account_status
+        description: "Account status"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Active', 'Closed', 'Dormant']
+
+      - name: currency
+        description: "Currency code for the account (e.g. IDR, USD)"
+        tests:
+          - not_null
+
+      - name: branch_id
+        description: "Identifier of the branch where account was opened"
+        tests:
+          - not_null
+
+  - name: stg_transactions
+    description: "Cleaned and standardized transaction data from raw.transactions"
+    columns:
+      - name: transaction_id
+        description: "Business key, unique identifier for each transaction from source system"
+        tests:
+          - unique
+          - not_null
+
+      - name: account_id
+        description: "Foreign key to stg_account.account_id"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_account')
+              field: account_id
+
+      - name: transaction_date
+        description: "Date when transaction occurred"
+        tests:
+          - not_null
+
+      - name: transaction_time
+        description: "Time when transaction occurred"
+
+      - name: transaction_type
+        description: "Type of transaction (Deposit, Withdrawal, Transfer, Fee, Interest, etc)"
+        tests:
+          - not_null
+
+      - name: amount
+        description: "Transaction amount, can be positive or negative depending on type"
+        tests:
+          - not_null
+
+      - name: balance_after
+        description: "Account balance immediately after this transaction"
+
+      - name: channel
+        description: "Channel used to perform the transaction (ATM, Branch, Mobile, Internet, POS, etc)"
+        tests:
+          - not_null
+
+      - name: status
+        description: "Transaction status"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Completed', 'Pending', 'Failed']
+
+      - name: merchant_name
+        description: "Name of the merchant associated with this transaction, if applicable"
+
+      - name: merchant_category
+        description: "Category of the merchant (Groceries, Online Shopping, Utilities, etc)"
