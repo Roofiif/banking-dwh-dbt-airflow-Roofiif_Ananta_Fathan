@@ -1,0 +1,44 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw e-banking DWH data loaded as dbt seeds"
+    schema: main
+
+    tables:
+      - name: accounts
+        description: "Raw accounts information from core banking"
+        columns:
+          - name: account_id
+            description: "Unique account identifier from source system"
+            tests:
+              - unique
+              - not_null
+
+          - name: customer_id
+            description: "Customer who owns the account"
+            tests:
+              - not_null
+
+      - name: customers
+        description: "Raw customer information from core banking"
+        columns:
+          - name: customer_id
+            description: "Unique customer identifier from source system"
+            tests:
+              - unique
+              - not_null
+
+      - name: transactions
+        description: "Raw transaction line items for all accounts"
+        columns:
+          - name: transaction_id
+            description: "Unique transaction identifier from source system"
+            tests:
+              - unique
+              - not_null
+
+          - name: account_id
+            description: "Associated account for this transaction"
+            tests:
+              - not_null

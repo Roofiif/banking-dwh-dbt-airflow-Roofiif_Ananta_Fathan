@@ -1,0 +1,9 @@
+# Database
+duckdb>=1.4.2
+
+# Additional packages (if needed)
+# pandas>=2.0.0
+# numpy>=1.24.0
+# Database adapter
+dbt-duckdb==1.9.4
+dbt-core==1.9.4

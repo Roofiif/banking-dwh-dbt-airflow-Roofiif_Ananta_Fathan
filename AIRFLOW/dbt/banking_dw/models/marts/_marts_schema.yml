@@ -1,0 +1,96 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: "Customer dimension for banking analytics"
+    columns:
+      - name: customer_sk
+        description: "Surrogate key for customer dimension"
+        tests:
+          - unique
+          - not_null
+
+      - name: customer_id
+        description: "Business key from source system"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: email
+        description: "Customer email address"
+        tests:
+          - unique
+          - not_null
+
+      - name: full_name
+        description: "Customer full name"
+
+      - name: gender
+        description: "Customer gender"
+
+      - name: address
+        description: "Customer address"
+
+      - name: city
+        description: "Customer city"
+
+      - name: province
+        description: "Customer province"
+
+      - name: postal_code
+        description: "Customer postal code"
+
+      - name: phone_number
+        description: "Customer phone number"
+
+      - name: occupation
+        description: "Customer occupation"
+
+      - name: income_level
+        description: "Customer income level grouping"
+
+      - name: risk_rating
+        description: "Customer credit risk rating"
+
+  - name: fact_transaction
+    description: "Transactional fact table containing all banking transactions at individual transaction grain"
+    columns:
+      - name: transaction_sk
+        description: "Surrogate key for each transaction row in the warehouse"
+        tests:
+          - unique
+          - not_null
+
+      - name: transaction_id_source
+        description: "Original transaction identifier from source system"
+        tests:
+          - not_null
+
+      - name: customer_sk
+        description: "Foreign key to dim_customer"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_sk
+
+      - name: amount
+        description: "Transaction amount"
+        tests:
+          - not_null
+
+      - name: balance_after
+        description: "Account balance directly after this transaction"
+
+      - name: transaction_type
+        description: "Transaction type (Deposit, Withdrawal, Transfer, Fee, Interest, etc)"
+        tests:
+          - not_null
+
+      - name: status
+        description: "Transaction status"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Completed', 'Pending', 'Failed']

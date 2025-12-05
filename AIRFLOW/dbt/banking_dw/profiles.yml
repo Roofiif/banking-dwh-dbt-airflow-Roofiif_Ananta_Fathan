@@ -1,0 +1,10 @@
+# profiles.yml
+
+banking_dw:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: 'dbt_banking_dw.duckdb'
+      schema: main
+      threads: 4
